@@ -1,5 +1,4 @@
 import { useForm } from "@tanstack/react-form";
-
 import { DEFAULT_PRODUCT_VALUES } from "@/lib/product-default-values";
 
 export function useProductForm() {

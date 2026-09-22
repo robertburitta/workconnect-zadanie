@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { basicInfoSchema } from "@/lib/validation/product";
+import { basicInfoSchema, priceSchema } from "@/lib/validation/product";
 import { Stepper } from "./steps/stepper";
 import { BasicInfoStep } from "./steps/basic-info-step";
 import { useProductForm } from "@/hooks/use-product-form";
+import { PriceStep, type PriceSource } from "./steps/price-step";
 
 interface ProductFormProps {
   onCancel: () => void;
@@ -14,12 +15,13 @@ interface ProductFormProps {
 
 export function ProductForm({ onCancel }: ProductFormProps) {
   const [step, setStep] = useState(1);
+  const [lastEditedPrice, setLastEditedPrice] = useState<PriceSource>("net");
   const form = useProductForm();
 
   async function handleNext() {
-    if (step === 1) {
-      await form.validateAllFields("change");
+    await form.validateAllFields("change");
 
+    if (step === 1) {
       const result = basicInfoSchema.safeParse(form.state.values);
 
       if (!result.success) {
@@ -31,6 +33,12 @@ export function ProductForm({ onCancel }: ProductFormProps) {
     }
 
     if (step === 2) {
+      const result = priceSchema.safeParse(form.state.values);
+
+      if (!result.success) {
+        return;
+      }
+
       setStep(3);
     }
   }
@@ -46,7 +54,9 @@ export function ProductForm({ onCancel }: ProductFormProps) {
       <main className="min-h-0 flex-1 overflow-y-auto p-4 sm:flex-none">
         {step === 1 && <BasicInfoStep form={form} />}
 
-        {step === 2 && <div>Krok 2</div>}
+        {step === 2 && (
+          <PriceStep form={form} lastEditedPrice={lastEditedPrice} onLastEditedPriceChange={setLastEditedPrice} />
+        )}
 
         {step === 3 && <div>Krok 3</div>}
       </main>

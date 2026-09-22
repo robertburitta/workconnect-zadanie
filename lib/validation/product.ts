@@ -15,9 +15,9 @@ export const basicInfoSchema = z.object({
 });
 
 export const priceSchema = z.object({
-  netPrice: z.number(),
-  grossPrice: z.number(),
-  vat: z.number(),
+  netPrice: z.number("Podaj cenę netto").nonnegative("Cena netto nie może być ujemna"),
+  grossPrice: z.number("Podaj cenę brutto").nonnegative("Cena brutto nie może być ujemna"),
+  vat: z.number("Wybierz stawkę VAT"),
   currency: z.string().min(1, "Wybierz walutę"),
 });
 
