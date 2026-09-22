@@ -100,7 +100,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
       <form.Field
         name="description"
         validators={{
-          onChange: basicInfoSchema.shape.description.unwrap(),
+          onChange: basicInfoSchema.shape.description,
         }}
       >
         {(field) => (

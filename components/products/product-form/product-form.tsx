@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { availabilitySchema, basicInfoSchema, priceSchema, productSchema } from "@/lib/validation/product";
+import {
+  availabilitySchema,
+  basicInfoSchema,
+  priceSchema,
+  productSchema,
+  ValidatedProduct,
+} from "@/lib/validation/product";
 import { Stepper } from "./steps/stepper";
 import { BasicInfoStep } from "./steps/basic-info-step";
 import { useProductForm } from "@/hooks/use-product-form";
@@ -11,10 +17,10 @@ import { PriceStep, type PriceSource } from "./steps/price-step";
 import { AvailabilityStep } from "./steps/availability-step";
 
 interface ProductFormProps {
-  onCancel: () => void;
+  onSubmit: (product: ValidatedProduct) => void;
 }
 
-export function ProductForm({ onCancel }: ProductFormProps) {
+export function ProductForm({ onSubmit }: ProductFormProps) {
   const [step, setStep] = useState(1);
   const [lastEditedPrice, setLastEditedPrice] = useState<PriceSource>("net");
   const form = useProductForm();
@@ -62,6 +68,8 @@ export function ProductForm({ onCancel }: ProductFormProps) {
     if (!productResult.success) {
       return;
     }
+
+    onSubmit(productResult.data);
   }
 
   return (

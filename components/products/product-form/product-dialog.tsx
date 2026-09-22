@@ -5,12 +5,22 @@ import { Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ProductForm } from "./product-form";
+import { ValidatedProduct } from "@/lib/validation/product";
 
-export function ProductDialog() {
+interface ProductDialogProps {
+  onSubmit: (product: ValidatedProduct) => void;
+}
+
+export function ProductDialog({ onSubmit }: ProductDialogProps) {
   const [open, setOpen] = useState(false);
 
-  function handleOpenChange(nextOpen: boolean) {
-    setOpen(nextOpen);
+  function handleOpenChange(isOpen: boolean) {
+    setOpen(isOpen);
+  }
+
+  function handleSubmit(product: ValidatedProduct) {
+    onSubmit(product);
+    setOpen(false);
   }
 
   return (
@@ -44,7 +54,7 @@ export function ProductDialog() {
           </DialogClose>
         </header>
 
-        <ProductForm onCancel={() => setOpen(false)} />
+        <ProductForm onSubmit={handleSubmit} />
       </DialogContent>
     </Dialog>
   );
