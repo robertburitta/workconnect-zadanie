@@ -26,7 +26,7 @@ export function ProductDialog() {
 
       <DialogContent
         showCloseButton={false}
-        className="flex max-h-[calc(100vh-32px)] w-180 max-w-[calc(100vw-32px)] flex-col gap-0 overflow-hidden rounded-2xl border-neutral-200 bg-white p-0 shadow-xl max-sm:inset-0 max-sm:h-dvh max-sm:max-h-none max-sm:w-screen max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:border-0"
+        className="flex max-h-[calc(100vh-32px)] w-180 max-w-[calc(100vw-32px)] flex-col gap-0 overflow-hidden rounded-2xl border-neutral-200 bg-white p-0 shadow-xl sm:max-w-180 max-sm:inset-0 max-sm:h-dvh max-sm:max-h-none max-sm:w-screen max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:border-0"
       >
         <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 px-4">
           <DialogTitle className="text-base font-medium">Dodaj nowy produkt</DialogTitle>

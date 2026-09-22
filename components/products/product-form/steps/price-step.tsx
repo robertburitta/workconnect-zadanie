@@ -7,7 +7,7 @@ import type { ProductFormApi } from "@/hooks/use-product-form";
 import { calculateGrossPrice, calculateNetPrice } from "@/lib/price";
 import { CURRENCIES, VAT_RATES } from "@/lib/product-options";
 import { priceSchema } from "@/lib/validation/product";
-import { cn } from "@/lib/utils";
+import { cn, getNumberInputValue } from "@/lib/utils";
 import { FieldError } from "../field-error";
 
 export type PriceSource = "net" | "gross";
@@ -32,14 +32,6 @@ const inputClassName =
   "h-8 rounded-full border-neutral-200 bg-white px-3 text-sm shadow-none placeholder:text-neutral-500 focus-visible:border-blue-600 focus-visible:ring-1 focus-visible:ring-blue-600";
 
 export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: PriceStepProps) {
-  function getNumberInputValue(value: string, valueAsNumber: number): number | null {
-    if (value === "" || Number.isNaN(valueAsNumber)) {
-      return null;
-    }
-
-    return valueAsNumber;
-  }
-
   return (
     <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
       {/* Cena netto */}

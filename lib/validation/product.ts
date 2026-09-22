@@ -21,17 +21,22 @@ export const priceSchema = z.object({
   currency: z.string().min(1, "Wybierz walutę"),
 });
 
+export const stockSchema = z
+  .number("Podaj ilość na magazynie")
+  .int("Ilość na magazynie musi być liczbą całkowitą")
+  .nonnegative("Ilość na magazynie nie może być ujemna");
+
+export const minQuantitySchema = z.number("Podaj minimalną ilość").int("Minimalna ilość musi być liczbą całkowitą");
+
+export const maxQuantitySchema = z.number("Podaj maksymalną ilość").int("Maksymalna ilość musi być liczbą całkowitą");
+
 export const availabilitySchema = z
   .object({
     available: z.boolean(),
     limited: z.boolean(),
-    stock: z
-      .number()
-      .int("Ilość na magazynie musi być liczbą całkowitą")
-      .nonnegative("Ilość na magazynie nie może być ujemna")
-      .nullable(),
-    minQuantity: z.number().int("Minimalna ilość musi być liczbą całkowitą"),
-    maxQuantity: z.number().int("Maksymalna ilość musi być liczbą całkowitą"),
+    stock: stockSchema.nullable(),
+    minQuantity: minQuantitySchema,
+    maxQuantity: maxQuantitySchema,
   })
   .superRefine((values, ctx) => {
     if (values.limited && values.stock === null) {

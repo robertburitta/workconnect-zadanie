@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { basicInfoSchema, priceSchema } from "@/lib/validation/product";
+import { availabilitySchema, basicInfoSchema, priceSchema, productSchema } from "@/lib/validation/product";
 import { Stepper } from "./steps/stepper";
 import { BasicInfoStep } from "./steps/basic-info-step";
 import { useProductForm } from "@/hooks/use-product-form";
 import { PriceStep, type PriceSource } from "./steps/price-step";
+import { AvailabilityStep } from "./steps/availability-step";
 
 interface ProductFormProps {
   onCancel: () => void;
@@ -47,6 +48,22 @@ export function ProductForm({ onCancel }: ProductFormProps) {
     setStep((currentStep) => Math.max(1, currentStep - 1));
   }
 
+  async function handleSave() {
+    await form.validateAllFields("change");
+
+    const availabilityResult = availabilitySchema.safeParse(form.state.values);
+
+    if (!availabilityResult.success) {
+      return;
+    }
+
+    const productResult = productSchema.safeParse(form.state.values);
+
+    if (!productResult.success) {
+      return;
+    }
+  }
+
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <Stepper currentStep={step} />
@@ -58,7 +75,7 @@ export function ProductForm({ onCancel }: ProductFormProps) {
           <PriceStep form={form} lastEditedPrice={lastEditedPrice} onLastEditedPriceChange={setLastEditedPrice} />
         )}
 
-        {step === 3 && <div>Krok 3</div>}
+        {step === 3 && <AvailabilityStep form={form} />}
       </main>
 
       <footer className="mt-auto flex h-17 shrink-0 items-center justify-between border-t border-neutral-200 px-4">
@@ -86,7 +103,11 @@ export function ProductForm({ onCancel }: ProductFormProps) {
             <ArrowRight className="size-4" />
           </Button>
         ) : (
-          <Button type="button" className="h-9 rounded-full bg-blue-600 px-4 text-white hover:bg-blue-700">
+          <Button
+            type="button"
+            onClick={handleSave}
+            className="h-9 rounded-full bg-blue-600 px-4 text-white hover:bg-blue-700"
+          >
             Zapisz produkt
           </Button>
         )}

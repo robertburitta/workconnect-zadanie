@@ -31,6 +31,6 @@ export interface ProductFormValues {
   available: boolean;
   limited: boolean;
   stock: number | null;
-  minQuantity: number;
-  maxQuantity: number;
+  minQuantity: number | null;
+  maxQuantity: number | null;
 }
