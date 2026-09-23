@@ -7,11 +7,12 @@ import type { Product } from "@/types/product";
 import { ProductDialog } from "./product-form/product-dialog";
 import { ProductTable } from "./product-table";
 import { toast } from "../ui/toast";
+import { getProductCountLabel } from "@/lib/pluralization";
 
-export function ProductsPage() {
+export const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
 
-  function handleProductAdd(values: ValidatedProduct) {
+  const handleProductAdd = (values: ValidatedProduct) => {
     const product: Product = {
       id: crypto.randomUUID(),
       ...values,
@@ -23,7 +24,7 @@ export function ProductsPage() {
       title: "Produkt został dodany",
       type: "success",
     });
-  }
+  };
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-322 px-4 py-6 md:px-6 md:py-12">
@@ -49,19 +50,4 @@ export function ProductsPage() {
       </Suspense>
     </main>
   );
-}
-
-function getProductCountLabel(count: number): string {
-  if (count === 1) {
-    return "produkt";
-  }
-
-  const lastTwoDigits = count % 100;
-  const lastDigit = count % 10;
-
-  if (lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 12 || lastTwoDigits > 14)) {
-    return "produkty";
-  }
-
-  return "produktów";
-}
+};

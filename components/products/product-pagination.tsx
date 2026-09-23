@@ -11,7 +11,13 @@ interface ProductPaginationProps {
   className?: string;
 }
 
-export function ProductPagination({ page, pageCount, totalProducts, onPageChange, className }: ProductPaginationProps) {
+export const ProductPagination = ({
+  page,
+  pageCount,
+  totalProducts,
+  onPageChange,
+  className,
+}: ProductPaginationProps) => {
   return (
     <div className={cn("flex items-center justify-between", className)}>
       <p className="text-xs text-neutral-500">
@@ -56,4 +62,4 @@ export function ProductPagination({ page, pageCount, totalProducts, onPageChange
       </nav>
     </div>
   );
-}
+};

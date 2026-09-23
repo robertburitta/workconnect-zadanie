@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button, Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui";
 import { ProductForm } from "./product-form";
 import { ValidatedProduct } from "@/lib/validation/product";
 
@@ -11,17 +10,17 @@ interface ProductDialogProps {
   onSubmit: (product: ValidatedProduct) => void;
 }
 
-export function ProductDialog({ onSubmit }: ProductDialogProps) {
+export const ProductDialog = ({ onSubmit }: ProductDialogProps) => {
   const [open, setOpen] = useState(false);
 
-  function handleOpenChange(isOpen: boolean) {
+  const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
-  }
+  };
 
-  function handleSubmit(product: ValidatedProduct) {
+  const handleSubmit = (product: ValidatedProduct) => {
     onSubmit(product);
     setOpen(false);
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -58,4 +57,4 @@ export function ProductDialog({ onSubmit }: ProductDialogProps) {
       </DialogContent>
     </Dialog>
   );
-}
+};

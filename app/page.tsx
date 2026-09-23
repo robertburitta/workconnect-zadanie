@@ -1,5 +1,7 @@
 import { ProductsPage } from "@/components/products/products-page";
 
-export default function Home() {
+const Home = () => {
   return <ProductsPage />;
-}
+};
+
+export default Home;

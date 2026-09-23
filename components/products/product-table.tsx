@@ -2,11 +2,12 @@
 
 import { useEffect } from "react";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui";
 import type { Product } from "@/types/product";
 import { ProductPagination } from "./product-pagination";
 import { formatPrice } from "@/lib/price";
+import { AvailabilityBadge } from "./availability-badge";
+import { ProductDetail } from "./product-detail";
 
 interface ProductTableProps {
   products: Product[];
@@ -14,7 +15,7 @@ interface ProductTableProps {
 
 const PAGE_SIZE = 5;
 
-export function ProductTable({ products }: ProductTableProps) {
+export const ProductTable = ({ products }: ProductTableProps) => {
   const [page, setPage] = useQueryState(
     "page",
     parseAsInteger.withDefault(1).withOptions({
@@ -28,7 +29,7 @@ export function ProductTable({ products }: ProductTableProps) {
 
   useEffect(() => {
     if (page !== currentPage) {
-      void setPage(currentPage, {
+      setPage(currentPage, {
         history: "replace",
       });
     }
@@ -37,23 +38,23 @@ export function ProductTable({ products }: ProductTableProps) {
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const pageProducts = products.slice(startIndex, startIndex + PAGE_SIZE);
 
-  function handlePageChange(nextPage: number) {
+  const handlePageChange = (nextPage: number) => {
     if (nextPage < 1 || nextPage > pageCount) {
       return;
     }
 
-    void setPage(nextPage);
-  }
+    setPage(nextPage);
+  };
 
   return (
     <>
-      {/* Desktop */}
       <div className="hidden overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm md:block">
         <Table className="table-fixed" aria-label="Produkty w katalogu">
           <colgroup>
             <col className="w-[28.75%]" />
             <col className="w-[14.25%]" span={5} />
           </colgroup>
+
           <TableHeader>
             <TableRow className="bg-neutral-50 [&>th]:font-normal [&>th]:text-neutral-500">
               <TableHead className="px-4">Nazwa</TableHead>
@@ -95,7 +96,6 @@ export function ProductTable({ products }: ProductTableProps) {
         </div>
       </div>
 
-      {/* Mobile */}
       <div className="md:hidden">
         <div className="space-y-2">
           {pageProducts.map((product) => (
@@ -132,38 +132,4 @@ export function ProductTable({ products }: ProductTableProps) {
       </div>
     </>
   );
-}
-
-interface AvailabilityBadgeProps {
-  available: boolean;
-}
-
-function AvailabilityBadge({ available }: AvailabilityBadgeProps) {
-  return (
-    <Badge
-      variant="secondary"
-      className={
-        available
-          ? "border-0 bg-green-600/10 font-normal text-green-600"
-          : "border-0 bg-red-600/10 font-normal text-red-600"
-      }
-    >
-      {available ? "Dostępny" : "Niedostępny"}
-    </Badge>
-  );
-}
-
-interface ProductDetailProps {
-  label: string;
-  value: string;
-  emphasized?: boolean;
-}
-
-function ProductDetail({ label, value, emphasized = false }: ProductDetailProps) {
-  return (
-    <div className="min-w-0">
-      <p className="text-xs text-neutral-500">{label}</p>
-      <p className={emphasized ? "mt-1 truncate text-sm font-medium" : "mt-1 truncate text-sm"}>{value}</p>
-    </div>
-  );
-}
+};

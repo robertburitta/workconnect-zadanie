@@ -17,20 +17,9 @@ export interface Product {
   maxQuantity: number;
 }
 
-export interface ProductFormValues {
-  name: string;
-  sku: string;
-  description: string;
-  manufacturer: string;
-  category: string;
-  features: string[];
+export type ProductFormValues = Omit<Product, "id" | "netPrice" | "grossPrice" | "minQuantity" | "maxQuantity"> & {
   netPrice: number | null;
   grossPrice: number | null;
-  vat: number;
-  currency: string;
-  available: boolean;
-  limited: boolean;
-  stock: number | null;
   minQuantity: number | null;
   maxQuantity: number | null;
-}
+};

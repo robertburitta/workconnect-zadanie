@@ -3,7 +3,7 @@ interface FieldErrorProps {
   errors: unknown[];
 }
 
-function getErrorMessage(error: unknown): string | null {
+const getErrorMessage = (error: unknown): string | null => {
   if (!error) {
     return null;
   }
@@ -29,9 +29,9 @@ function getErrorMessage(error: unknown): string | null {
   }
 
   return null;
-}
+};
 
-export function FieldError({ id, errors }: FieldErrorProps) {
+export const FieldError = ({ id, errors }: FieldErrorProps) => {
   const message = getErrorMessage(errors);
 
   if (!message) {
@@ -43,4 +43,4 @@ export function FieldError({ id, errors }: FieldErrorProps) {
       {message}
     </p>
   );
-}
+};

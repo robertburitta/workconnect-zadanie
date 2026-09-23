@@ -1,20 +1,20 @@
-export function roundPrice(value: number): number | null {
+export const roundPrice = (value: number): number | null => {
   if (!Number.isFinite(value)) {
     return null;
   }
 
   return Math.round((value + Number.EPSILON) * 100) / 100;
-}
+};
 
-export function calculateGrossPrice(netPrice: number, vat: number): number | null {
+export const calculateGrossPrice = (netPrice: number, vat: number): number | null => {
   return roundPrice(netPrice * (1 + vat / 100));
-}
+};
 
-export function calculateNetPrice(grossPrice: number, vat: number): number | null {
+export const calculateNetPrice = (grossPrice: number, vat: number): number | null => {
   return roundPrice(grossPrice / (1 + vat / 100));
-}
+};
 
-export function formatPrice(price: number, currency: string): string {
+export const formatPrice = (price: number, currency: string): string => {
   const formattedPrice = new Intl.NumberFormat("pl-PL", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -22,4 +22,4 @@ export function formatPrice(price: number, currency: string): string {
   }).format(price);
 
   return `${formattedPrice} ${currency}`;
-}
+};

@@ -1,14 +1,11 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { ProductFormApi } from "@/hooks/use-product-form";
 import { calculateGrossPrice, calculateNetPrice } from "@/lib/price";
 import { CURRENCIES, VAT_RATES } from "@/lib/product-options";
 import { priceSchema } from "@/lib/validation/product";
-import { cn, getNumberInputValue } from "@/lib/utils";
-import { FieldError } from "../field-error";
+import { FormSelect } from "../form-select";
+import { FormInput } from "../form-input";
 
 export type PriceSource = "net" | "gross";
 
@@ -19,7 +16,7 @@ interface PriceStepProps {
 }
 
 const VAT_ITEMS = VAT_RATES.map((vat) => ({
-  value: String(vat),
+  value: vat,
   label: `${vat}%`,
 }));
 
@@ -28,10 +25,25 @@ const CURRENCY_ITEMS = CURRENCIES.map((currency) => ({
   label: currency,
 }));
 
-export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: PriceStepProps) {
+export const PriceStep = ({ form, lastEditedPrice, onLastEditedPriceChange }: PriceStepProps) => {
+  const calculatePriceOnVatChange = (vat: number) => {
+    if (lastEditedPrice === "net") {
+      const netPrice = form.state.values.netPrice;
+
+      if (netPrice !== null) {
+        form.setFieldValue("grossPrice", calculateGrossPrice(netPrice, vat));
+      }
+    } else {
+      const grossPrice = form.state.values.grossPrice;
+
+      if (grossPrice !== null) {
+        form.setFieldValue("netPrice", calculateNetPrice(grossPrice, vat));
+      }
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
-      {/* Cena netto */}
       <form.Field
         name="netPrice"
         validators={{
@@ -39,47 +51,24 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
         }}
       >
         {(field) => (
-          <div className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
-              Cena netto
-            </Label>
-
-            <Input
-              id={field.name}
-              name={field.name}
-              type="number"
-              step="0.01"
-              inputMode="decimal"
-              value={field.state.value ?? ""}
-              placeholder="0.00"
-              aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
-              aria-invalid={field.state.meta.errors.length > 0}
-              onBlur={field.handleBlur}
-              onChange={(event) => {
-                const value = getNumberInputValue(event.target.value, event.target.valueAsNumber);
-
-                field.handleChange(value);
-                onLastEditedPriceChange("net");
-
-                if (value === null) {
-                  form.setFieldValue("grossPrice", null);
-                  return;
-                }
-
-                form.setFieldValue("grossPrice", calculateGrossPrice(value, form.state.values.vat));
-              }}
-              className={cn(
-                field.state.meta.errors.length > 0 &&
-                  "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
-              )}
-            />
-
-            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
-          </div>
+          <FormInput
+            field={field}
+            label="Cena netto"
+            type="number"
+            step="0.01"
+            inputMode="decimal"
+            placeholder="0.00"
+            onValueChange={(value) => {
+              onLastEditedPriceChange("net");
+              form.setFieldValue(
+                "grossPrice",
+                value === null ? null : calculateGrossPrice(value, form.state.values.vat),
+              );
+            }}
+          />
         )}
       </form.Field>
 
-      {/* Cena brutto */}
       <form.Field
         name="grossPrice"
         validators={{
@@ -87,47 +76,21 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
         }}
       >
         {(field) => (
-          <div className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
-              Cena brutto
-            </Label>
-
-            <Input
-              id={field.name}
-              name={field.name}
-              type="number"
-              step="0.01"
-              inputMode="decimal"
-              value={field.state.value ?? ""}
-              placeholder="0.00"
-              aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
-              aria-invalid={field.state.meta.errors.length > 0}
-              onBlur={field.handleBlur}
-              onChange={(event) => {
-                const value = getNumberInputValue(event.target.value, event.target.valueAsNumber);
-
-                field.handleChange(value);
-                onLastEditedPriceChange("gross");
-
-                if (value === null) {
-                  form.setFieldValue("netPrice", null);
-                  return;
-                }
-
-                form.setFieldValue("netPrice", calculateNetPrice(value, form.state.values.vat));
-              }}
-              className={cn(
-                field.state.meta.errors.length > 0 &&
-                  "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
-              )}
-            />
-
-            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
-          </div>
+          <FormInput
+            field={field}
+            label="Cena brutto"
+            type="number"
+            step="0.01"
+            inputMode="decimal"
+            placeholder="0.00"
+            onValueChange={(value) => {
+              onLastEditedPriceChange("gross");
+              form.setFieldValue("netPrice", value === null ? null : calculateNetPrice(value, form.state.values.vat));
+            }}
+          />
         )}
       </form.Field>
 
-      {/* VAT */}
       <form.Field
         name="vat"
         validators={{
@@ -135,111 +98,18 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
         }}
       >
         {(field) => (
-          <div className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
-              Stawka VAT
-            </Label>
-
-            <Select
-              items={VAT_ITEMS}
-              value={String(field.state.value)}
-              onValueChange={(value) => {
-                if (value === null) {
-                  return;
-                }
-
-                const vat = Number(value);
-
-                field.handleChange(vat);
-
-                if (lastEditedPrice === "net") {
-                  const netPrice = form.state.values.netPrice;
-
-                  if (netPrice !== null) {
-                    form.setFieldValue("grossPrice", calculateGrossPrice(netPrice, vat));
-                  }
-                } else {
-                  const grossPrice = form.state.values.grossPrice;
-
-                  if (grossPrice !== null) {
-                    form.setFieldValue("netPrice", calculateNetPrice(grossPrice, vat));
-                  }
-                }
-              }}
-            >
-              <SelectTrigger
-                id={field.name}
-                aria-label="Stawka VAT"
-                aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
-                aria-invalid={field.state.meta.errors.length > 0}
-                className={cn(
-                  "h-8 w-full rounded-full border-neutral-200 px-3 mb-0 text-sm shadow-none",
-                  field.state.meta.errors.length > 0 && "border-red-500",
-                )}
-              >
-                <SelectValue />
-              </SelectTrigger>
-
-              <SelectContent>
-                {VAT_ITEMS.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
-          </div>
+          <FormSelect field={field} label="Stawka VAT" items={VAT_ITEMS} onValueChange={calculatePriceOnVatChange} />
         )}
       </form.Field>
 
-      {/* Waluta */}
       <form.Field
         name="currency"
         validators={{
           onChange: priceSchema.shape.currency,
         }}
       >
-        {(field) => (
-          <div className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
-              Waluta
-            </Label>
-
-            <Select
-              items={CURRENCY_ITEMS}
-              value={field.state.value || null}
-              onValueChange={(value) => {
-                field.handleChange(value ?? "");
-              }}
-            >
-              <SelectTrigger
-                id={field.name}
-                aria-label="Waluta"
-                aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
-                aria-invalid={field.state.meta.errors.length > 0}
-                className={cn(
-                  "h-8 w-full rounded-full border-neutral-200 px-3 mb-0 text-sm shadow-none",
-                  field.state.meta.errors.length > 0 && "border-red-500",
-                )}
-              >
-                <SelectValue placeholder="Wybierz walutę" />
-              </SelectTrigger>
-
-              <SelectContent>
-                {CURRENCY_ITEMS.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
-          </div>
-        )}
+        {(field) => <FormSelect field={field} label="Waluta" items={CURRENCY_ITEMS} placeholder="Wybierz walutę" />}
       </form.Field>
     </div>
   );
-}
+};
