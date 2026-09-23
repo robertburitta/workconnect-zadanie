@@ -14,9 +14,6 @@ interface BasicInfoStepProps {
   form: ProductFormApi;
 }
 
-const inputClassName =
-  "h-8 rounded-full border-neutral-200 bg-white px-3 text-sm shadow-none placeholder:text-neutral-500 focus-visible:border-blue-600 focus-visible:ring-1 focus-visible:ring-blue-600";
-
 const MANUFACTURER_ITEMS = MANUFACTURERS.map((value) => ({
   value,
   label: value,
@@ -29,7 +26,7 @@ const CATEGORY_ITEMS = CATEGORIES.map((value) => ({
 
 export function BasicInfoStep({ form }: BasicInfoStepProps) {
   return (
-    <div className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
       {/* Nazwa */}
       <form.Field
         name="name"
@@ -53,7 +50,6 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
               aria-invalid={field.state.meta.errors.length > 0}
               className={cn(
-                inputClassName,
                 field.state.meta.errors.length > 0 &&
                   "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
               )}
@@ -87,7 +83,6 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
               aria-invalid={field.state.meta.errors.length > 0}
               className={cn(
-                inputClassName,
                 field.state.meta.errors.length > 0 &&
                   "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
               )}
@@ -150,7 +145,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
                 aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
-                  "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600",
+                  "h-8 w-full rounded-full border-neutral-200 px-3 mb-0 text-sm shadow-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600",
                   field.state.meta.errors.length > 0 && "border-red-500",
                 )}
               >
@@ -197,7 +192,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
                 aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
-                  "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600",
+                  "h-8 w-full rounded-full border-neutral-200 px-3 mb-0 text-sm shadow-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600",
                   field.state.meta.errors.length > 0 && "border-red-500",
                 )}
               >

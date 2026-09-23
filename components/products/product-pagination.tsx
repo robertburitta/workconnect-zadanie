@@ -23,7 +23,7 @@ export function ProductPagination({ page, pageCount, totalProducts, onPageChange
           type="button"
           disabled={page === 1}
           onClick={() => onPageChange(page - 1)}
-          className="flex h-8 items-center gap-1 rounded-md px-2 text-sm text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-950 disabled:pointer-events-none disabled:opacity-50"
+          className="flex h-8 items-center gap-1 rounded-md px-2 text-sm text-neutral-950 transition-colors hover:bg-neutral-100 disabled:pointer-events-none disabled:opacity-50"
         >
           <ChevronLeft className="size-4" />
           Wstecz

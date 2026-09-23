@@ -13,9 +13,6 @@ interface AvailabilityStepProps {
   form: ProductFormApi;
 }
 
-const inputClassName =
-  "h-8 rounded-full border-neutral-200 bg-white px-3 text-sm shadow-none placeholder:text-neutral-500 focus-visible:border-blue-600 focus-visible:ring-1 focus-visible:ring-blue-600";
-
 export function AvailabilityStep({ form }: AvailabilityStepProps) {
   return (
     <div>
@@ -86,7 +83,9 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                         inputMode="numeric"
                         value={stockField.state.value ?? ""}
                         placeholder="0"
-                        aria-describedby={stockField.state.meta.errors.length > 0 ? `${stockField.name}-error` : undefined}
+                        aria-describedby={
+                          stockField.state.meta.errors.length > 0 ? `${stockField.name}-error` : undefined
+                        }
                         aria-invalid={stockField.state.meta.errors.length > 0}
                         onBlur={stockField.handleBlur}
                         onChange={(event) => {
@@ -95,7 +94,6 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                           stockField.handleChange(value);
                         }}
                         className={cn(
-                          inputClassName,
                           stockField.state.meta.errors.length > 0 &&
                             "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
                         )}
@@ -112,7 +110,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
       </form.Field>
 
       {/* Limity koszyka */}
-      <section className="pt-5">
+      <section className="pt-4">
         <h3 className="text-base font-medium">Limity koszyka</h3>
 
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -145,7 +143,6 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                     field.handleChange(value);
                   }}
                   className={cn(
-                    inputClassName,
                     field.state.meta.errors.length > 0 &&
                       "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
                   )}
@@ -201,7 +198,6 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                     field.handleChange(value);
                   }}
                   className={cn(
-                    inputClassName,
                     field.state.meta.errors.length > 0 &&
                       "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
                   )}

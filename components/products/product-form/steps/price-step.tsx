@@ -28,12 +28,9 @@ const CURRENCY_ITEMS = CURRENCIES.map((currency) => ({
   label: currency,
 }));
 
-const inputClassName =
-  "h-8 rounded-full border-neutral-200 bg-white px-3 text-sm shadow-none placeholder:text-neutral-500 focus-visible:border-blue-600 focus-visible:ring-1 focus-visible:ring-blue-600";
-
 export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: PriceStepProps) {
   return (
-    <div className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
       {/* Cena netto */}
       <form.Field
         name="netPrice"
@@ -72,7 +69,6 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
                 form.setFieldValue("grossPrice", calculateGrossPrice(value, form.state.values.vat));
               }}
               className={cn(
-                inputClassName,
                 field.state.meta.errors.length > 0 &&
                   "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
               )}
@@ -121,7 +117,6 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
                 form.setFieldValue("netPrice", calculateNetPrice(value, form.state.values.vat));
               }}
               className={cn(
-                inputClassName,
                 field.state.meta.errors.length > 0 &&
                   "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500",
               )}
@@ -141,7 +136,9 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
       >
         {(field) => (
           <div className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium leading-5">Stawka VAT</Label>
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
+              Stawka VAT
+            </Label>
 
             <Select
               items={VAT_ITEMS}
@@ -176,7 +173,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
                 aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
-                  "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none",
+                  "h-8 w-full rounded-full border-neutral-200 px-3 mb-0 text-sm shadow-none",
                   field.state.meta.errors.length > 0 && "border-red-500",
                 )}
               >
@@ -206,7 +203,9 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
       >
         {(field) => (
           <div className="space-y-2">
-            <Label htmlFor={field.name} className="text-sm font-medium leading-5">Waluta</Label>
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
+              Waluta
+            </Label>
 
             <Select
               items={CURRENCY_ITEMS}
@@ -221,7 +220,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
                 aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
-                  "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none",
+                  "h-8 w-full rounded-full border-neutral-200 px-3 mb-0 text-sm shadow-none",
                   field.state.meta.errors.length > 0 && "border-red-500",
                 )}
               >

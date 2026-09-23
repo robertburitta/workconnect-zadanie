@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toast";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Produkty",
+  title: "Katalog produktów",
   description: "Zadanie rekrutacyjne do firmy WorkConnect",
 };
 

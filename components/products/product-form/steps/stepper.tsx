@@ -27,7 +27,7 @@ export function Stepper({ currentStep }: StepperProps) {
   return (
     <div
       aria-label={`Krok ${currentStep} z 3: ${STEPS[currentStep - 1].label}`}
-      className="shrink-0 border-b border-neutral-200 px-4 py-3 max-sm:mx-4 max-sm:px-0 max-sm:py-6"
+      className="shrink-0 h-15.5 border-b border-neutral-200 px-4 py-3 max-sm:h-33 max-sm:mx-4 max-sm:px-0 max-sm:py-6"
     >
       {/* Mobile */}
       <div className="grid grid-cols-3 gap-4 sm:hidden">
@@ -58,7 +58,7 @@ export function Stepper({ currentStep }: StepperProps) {
                 {step.label}
               </span>
 
-              <span className="mt-0.5 text-xs leading-4 text-neutral-500">{step.description}</span>
+              <span className="mt-0.5 text-xs leading-4 text-neutral-500 whitespace-nowrap">{step.description}</span>
             </div>
           );
         })}
@@ -91,7 +91,7 @@ export function Stepper({ currentStep }: StepperProps) {
                     {step.label}
                   </div>
 
-                  <div className="mt-0.5 text-xs text-neutral-500">{step.description}</div>
+                  <div className="mt-0.5 text-xs text-neutral-500 whitespace-nowrap">{step.description}</div>
                 </div>
               </div>
 

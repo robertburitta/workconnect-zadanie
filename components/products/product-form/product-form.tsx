@@ -110,7 +110,7 @@ export function ProductForm({ onSubmit }: ProductFormProps) {
         {step === 3 && <AvailabilityStep form={form} />}
       </div>
 
-      <footer className="mt-auto flex min-h-17 shrink-0 items-center justify-between border-t border-neutral-200 bg-neutral-50 px-4 py-4">
+      <footer className="mt-auto flex h-17 shrink-0 items-center justify-between border-t border-neutral-200 bg-neutral-50 px-4 py-4">
         {step === 1 ? (
           <div />
         ) : (

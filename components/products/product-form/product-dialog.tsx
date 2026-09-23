@@ -27,7 +27,7 @@ export function ProductDialog({ onSubmit }: ProductDialogProps) {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger
         render={
-          <Button className="h-9 rounded-full bg-blue-600 px-4 text-sm font-medium text-white hover:bg-blue-700" />
+          <Button className="h-9 rounded-full bg-blue-600 px-4 text-md font-medium text-white hover:bg-blue-700" />
         }
       >
         <Plus className="size-4" />
@@ -36,16 +36,16 @@ export function ProductDialog({ onSubmit }: ProductDialogProps) {
 
       <DialogContent
         showCloseButton={false}
-        className="flex max-h-[calc(100dvh-32px)] w-180 max-w-[calc(100vw-32px)] flex-col gap-0 overflow-hidden rounded-xl border-neutral-200 bg-white p-0 shadow-xl sm:max-w-180 max-sm:inset-0 max-sm:h-dvh max-sm:max-h-none max-sm:w-screen max-sm:max-w-none max-sm:translate-x-0 max-sm:translate-y-0 max-sm:rounded-none max-sm:border-0 max-sm:ring-0"
+        className="flex max-h-[calc(100dvh-32px)] w-180 max-w-[calc(100vw-32px)] flex-col gap-0 overflow-hidden rounded-xl border-neutral-200 bg-white p-0 shadow-xl sm:max-w-none md:max-w-180 max-md:inset-0 max-md:h-dvh max-md:max-h-none max-md:w-screen max-md:max-w-none max-md:translate-x-0 max-md:translate-y-0 max-md:rounded-none max-md:border-0 max-md:ring-0"
       >
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 px-4 max-sm:mx-4 max-sm:h-14 max-sm:px-0">
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-neutral-200 px-4 max-md:mx-4 max-md:h-14 max-md:px-0">
           <DialogTitle className="text-base font-medium">Dodaj nowy produkt</DialogTitle>
 
           <DialogClose
             render={
               <button
                 type="button"
-                className="flex size-8 items-center justify-center rounded-full text-neutral-600 transition-colors hover:bg-neutral-100"
+                className="flex size-4 items-center justify-center rounded-full text-neutral-600 transition-colors hover:bg-neutral-100"
                 aria-label="Zamknij"
               />
             }
@@ -54,7 +54,7 @@ export function ProductDialog({ onSubmit }: ProductDialogProps) {
           </DialogClose>
         </header>
 
-        {open && <ProductForm onSubmit={handleSubmit} />}
+        <ProductForm onSubmit={handleSubmit} />
       </DialogContent>
     </Dialog>
   );
