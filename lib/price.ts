@@ -1,12 +1,16 @@
-export function roundPrice(value: number): number {
+export function roundPrice(value: number): number | null {
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
 
-export function calculateGrossPrice(netPrice: number, vat: number): number {
+export function calculateGrossPrice(netPrice: number, vat: number): number | null {
   return roundPrice(netPrice * (1 + vat / 100));
 }
 
-export function calculateNetPrice(grossPrice: number, vat: number): number {
+export function calculateNetPrice(grossPrice: number, vat: number): number | null {
   return roundPrice(grossPrice / (1 + vat / 100));
 }
 

@@ -1,7 +1,7 @@
 export { cn } from "cn";
 
 export function getNumberInputValue(value: string, valueAsNumber: number): number | null {
-  if (value === "" || Number.isNaN(valueAsNumber)) {
+  if (value === "" || !Number.isFinite(valueAsNumber)) {
     return null;
   }
 

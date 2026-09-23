@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CATEGORIES, CURRENCIES, MANUFACTURERS, PRODUCT_FEATURES, VAT_RATES } from "../product-options";
 
 export const basicInfoSchema = z.object({
   name: z.string().trim().min(3, "Nazwa produktu musi mieć co najmniej 3 znaki"),
@@ -9,16 +10,18 @@ export const basicInfoSchema = z.object({
     .max(24, "SKU może mieć maksymalnie 24 znaki")
     .regex(/^[a-zA-Z0-9]+$/, "SKU może zawierać wyłącznie litery i cyfry"),
   description: z.string(),
-  manufacturer: z.string().min(1, "Wybierz producenta"),
-  category: z.string().min(1, "Wybierz kategorię"),
-  features: z.array(z.string()).min(1, "Wybierz co najmniej jedną cechę produktu"),
+  manufacturer: z.enum(MANUFACTURERS, "Wybierz producenta z listy"),
+  category: z.enum(CATEGORIES, "Wybierz kategorię z listy"),
+  features: z
+    .array(z.enum(PRODUCT_FEATURES, "Wybierz cechę z listy"))
+    .min(1, "Wybierz co najmniej jedną cechę produktu"),
 });
 
 export const priceSchema = z.object({
   netPrice: z.number("Podaj cenę netto").nonnegative("Cena netto nie może być ujemna"),
   grossPrice: z.number("Podaj cenę brutto").nonnegative("Cena brutto nie może być ujemna"),
-  vat: z.number("Wybierz stawkę VAT"),
-  currency: z.string().min(1, "Wybierz walutę"),
+  vat: z.number("Wybierz stawkę VAT").refine((value) => VAT_RATES.includes(value), "Wybierz stawkę VAT z listy"),
+  currency: z.enum(CURRENCIES, "Wybierz walutę z listy"),
 });
 
 export const stockSchema = z

@@ -102,7 +102,7 @@ function ToastClose({
   return (
     <ToastPrimitive.Close
       data-slot="toast-close"
-      aria-label="Close toast"
+      aria-label="Zamknij powiadomienie"
       render={render}
       className={cn(
         "relative shrink-0 text-muted-foreground after:absolute after:-inset-2 after:content-[''] hover:text-foreground",
@@ -120,7 +120,7 @@ function ToastIcon({ type }: { type: string | undefined }) {
 
   if (type === "success") {
     icon = (
-      <span className="flex size-4 items-center justify-center rounded-full bg-green-600 text-white">
+      <span aria-hidden="true" className="flex size-4 items-center justify-center rounded-full bg-green-600 text-white">
         <CheckIcon className="size-3" strokeWidth={3} />
       </span>
     );

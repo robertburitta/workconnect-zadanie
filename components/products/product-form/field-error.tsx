@@ -1,4 +1,5 @@
 interface FieldErrorProps {
+  id?: string;
   errors: unknown[];
 }
 
@@ -30,12 +31,16 @@ function getErrorMessage(error: unknown): string | null {
   return null;
 }
 
-export function FieldError({ errors }: FieldErrorProps) {
+export function FieldError({ id, errors }: FieldErrorProps) {
   const message = getErrorMessage(errors);
 
   if (!message) {
     return null;
   }
 
-  return <p className="mt-1 text-xs text-red-500">{message}</p>;
+  return (
+    <p id={id} role="alert" className="mt-1 text-xs text-red-600">
+      {message}
+    </p>
+  );
 }

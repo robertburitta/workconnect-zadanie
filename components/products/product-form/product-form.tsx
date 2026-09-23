@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +23,12 @@ interface ProductFormProps {
 export function ProductForm({ onSubmit }: ProductFormProps) {
   const [step, setStep] = useState(1);
   const [lastEditedPrice, setLastEditedPrice] = useState<PriceSource>("net");
-  const form = useProductForm();
+  const form = useProductForm(onSubmit);
+  const formElement = useRef<HTMLFormElement>(null);
+
+  function focusFirstError() {
+    formElement.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+  }
 
   async function handleNext() {
     await form.validateAllFields("change");
@@ -32,6 +37,7 @@ export function ProductForm({ onSubmit }: ProductFormProps) {
       const result = basicInfoSchema.safeParse(form.state.values);
 
       if (!result.success) {
+        focusFirstError();
         return;
       }
 
@@ -43,6 +49,7 @@ export function ProductForm({ onSubmit }: ProductFormProps) {
       const result = priceSchema.safeParse(form.state.values);
 
       if (!result.success) {
+        focusFirstError();
         return;
       }
 
@@ -60,23 +67,40 @@ export function ProductForm({ onSubmit }: ProductFormProps) {
     const availabilityResult = availabilitySchema.safeParse(form.state.values);
 
     if (!availabilityResult.success) {
+      focusFirstError();
       return;
     }
 
     const productResult = productSchema.safeParse(form.state.values);
 
     if (!productResult.success) {
+      setStep(basicInfoSchema.safeParse(form.state.values).success ? 2 : 1);
+      await form.handleSubmit();
+      focusFirstError();
       return;
     }
 
-    onSubmit(productResult.data);
+    await form.handleSubmit();
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <form
+      ref={formElement}
+      noValidate
+      onSubmit={(event) => {
+        event.preventDefault();
+
+        if (step < 3) {
+          void handleNext();
+        } else {
+          void handleSave();
+        }
+      }}
+      className="flex min-h-0 flex-1 flex-col"
+    >
       <Stepper currentStep={step} />
 
-      <main className="min-h-0 flex-1 overflow-y-auto p-4 sm:flex-none">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5">
         {step === 1 && <BasicInfoStep form={form} />}
 
         {step === 2 && (
@@ -84,9 +108,9 @@ export function ProductForm({ onSubmit }: ProductFormProps) {
         )}
 
         {step === 3 && <AvailabilityStep form={form} />}
-      </main>
+      </div>
 
-      <footer className="mt-auto flex h-17 shrink-0 items-center justify-between border-t border-neutral-200 px-4">
+      <footer className="mt-auto flex min-h-17 shrink-0 items-center justify-between border-t border-neutral-200 bg-neutral-50 px-4 py-4">
         {step === 1 ? (
           <div />
         ) : (
@@ -102,24 +126,16 @@ export function ProductForm({ onSubmit }: ProductFormProps) {
         )}
 
         {step < 3 ? (
-          <Button
-            type="button"
-            onClick={handleNext}
-            className="h-9 rounded-full bg-blue-600 px-4 text-white hover:bg-blue-700"
-          >
+          <Button type="submit" className="h-9 rounded-full bg-blue-600 px-4 text-white hover:bg-blue-700">
             Dalej
             <ArrowRight className="size-4" />
           </Button>
         ) : (
-          <Button
-            type="button"
-            onClick={handleSave}
-            className="h-9 rounded-full bg-blue-600 px-4 text-white hover:bg-blue-700"
-          >
+          <Button type="submit" className="h-9 rounded-full bg-blue-600 px-4 text-white hover:bg-blue-700">
             Zapisz produkt
           </Button>
         )}
       </footer>
-    </div>
+    </form>
   );
 }

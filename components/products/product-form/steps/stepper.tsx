@@ -25,7 +25,10 @@ const STEPS = [
 
 export function Stepper({ currentStep }: StepperProps) {
   return (
-    <div className="border-b border-neutral-200 px-4 py-4">
+    <div
+      aria-label={`Krok ${currentStep} z 3: ${STEPS[currentStep - 1].label}`}
+      className="shrink-0 border-b border-neutral-200 px-4 py-3 max-sm:mx-4 max-sm:px-0 max-sm:py-6"
+    >
       {/* Mobile */}
       <div className="grid grid-cols-3 gap-4 sm:hidden">
         {STEPS.map((step) => {
@@ -33,7 +36,11 @@ export function Stepper({ currentStep }: StepperProps) {
           const active = currentStep === step.number;
 
           return (
-            <div key={step.number} className="flex min-w-0 flex-col items-start">
+            <div
+              key={step.number}
+              aria-current={active ? "step" : undefined}
+              className="flex min-w-0 flex-col items-start"
+            >
               <div
                 className={cn(
                   "mb-3 flex size-8 items-center justify-center rounded-full border text-sm font-medium",
@@ -58,14 +65,14 @@ export function Stepper({ currentStep }: StepperProps) {
       </div>
 
       {/* Desktop */}
-      <div className="hidden grid-cols-[1fr_68px_1fr_68px_1fr] items-center sm:grid">
+      <div className="hidden grid-cols-[146px_minmax(16px,1fr)_146px_minmax(16px,1fr)_198px] items-center sm:grid">
         {STEPS.map((step, index) => {
           const completed = currentStep > step.number;
           const active = currentStep === step.number;
 
           return (
             <div key={step.number} className="contents">
-              <div className="flex items-center gap-3">
+              <div aria-current={active ? "step" : undefined} className="flex items-center gap-3">
                 <div
                   className={cn(
                     "flex size-8 shrink-0 items-center justify-center rounded-full border text-sm font-medium",
@@ -89,7 +96,7 @@ export function Stepper({ currentStep }: StepperProps) {
               </div>
 
               {index < STEPS.length - 1 && (
-                <div className={cn("mx-2 h-px", currentStep > step.number ? "bg-blue-600" : "bg-neutral-200")} />
+                <div className={cn("mx-4 h-px", currentStep > step.number ? "bg-blue-600" : "bg-neutral-200")} />
               )}
             </div>
           );

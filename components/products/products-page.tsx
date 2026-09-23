@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { INITIAL_PRODUCTS } from "@/lib/mock-products";
 import type { ValidatedProduct } from "@/lib/validation/product";
 import type { Product } from "@/types/product";
@@ -26,8 +26,8 @@ export function ProductsPage() {
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-310 px-4 py-8 md:px-6 md:py-14">
-      <div className="mb-6 flex items-start justify-between gap-4">
+    <main className="mx-auto min-h-screen w-full max-w-322 px-4 py-6 md:px-6 md:py-12">
+      <div className="mb-4 flex items-center justify-between gap-4 md:mb-6">
         <div>
           <h1 className="text-xl font-semibold">Produkty</h1>
           <p className="mt-1 text-sm text-neutral-500">
@@ -38,7 +38,15 @@ export function ProductsPage() {
         <ProductDialog onSubmit={handleProductAdd} />
       </div>
 
-      <ProductTable products={products} />
+      <Suspense
+        fallback={
+          <p role="status" className="text-sm text-neutral-500">
+            Ładowanie produktów...
+          </p>
+        }
+      >
+        <ProductTable products={products} />
+      </Suspense>
     </main>
   );
 }

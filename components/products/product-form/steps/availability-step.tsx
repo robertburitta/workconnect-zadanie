@@ -31,7 +31,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
               className="data-checked:bg-blue-600"
             />
 
-            <Label htmlFor={field.name} className="cursor-pointer text-sm font-medium">
+            <Label htmlFor={field.name} className="cursor-pointer text-sm font-medium leading-5">
               Produkt jest dostępny
             </Label>
           </div>
@@ -51,13 +51,13 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                   field.handleChange(checked);
 
                   if (!checked) {
-                    form.setFieldValue("stock", null);
+                    form.resetField("stock");
                   }
                 }}
                 className="border-neutral-300 data-checked:border-blue-600 data-checked:bg-blue-600"
               />
 
-              <Label htmlFor={field.name} className="cursor-pointer text-sm font-medium">
+              <Label htmlFor={field.name} className="cursor-pointer text-sm font-medium leading-5">
                 Produkt limitowany
               </Label>
             </div>
@@ -72,8 +72,8 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
               >
                 {(stockField) => (
                   <div className="border-b border-neutral-200 py-4">
-                    <div className="space-y-1.5 sm:max-w-[calc(50%-8px)]">
-                      <Label htmlFor={stockField.name} className="text-sm font-medium">
+                    <div className="space-y-2 sm:max-w-[calc(50%-8px)]">
+                      <Label htmlFor={stockField.name} className="text-sm font-medium leading-5">
                         Ilość na magazynie
                       </Label>
 
@@ -86,6 +86,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                         inputMode="numeric"
                         value={stockField.state.value ?? ""}
                         placeholder="0"
+                        aria-describedby={stockField.state.meta.errors.length > 0 ? `${stockField.name}-error` : undefined}
                         aria-invalid={stockField.state.meta.errors.length > 0}
                         onBlur={stockField.handleBlur}
                         onChange={(event) => {
@@ -100,7 +101,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                         )}
                       />
 
-                      <FieldError errors={stockField.state.meta.errors} />
+                      <FieldError id={`${stockField.name}-error`} errors={stockField.state.meta.errors} />
                     </div>
                   </div>
                 )}
@@ -123,8 +124,8 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
             }}
           >
             {(field) => (
-              <div className="space-y-1.5">
-                <Label htmlFor={field.name} className="text-sm font-medium">
+              <div className="space-y-2">
+                <Label htmlFor={field.name} className="text-sm font-medium leading-5">
                   Minimalna ilość
                 </Label>
 
@@ -135,6 +136,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                   step={1}
                   inputMode="numeric"
                   value={field.state.value ?? ""}
+                  aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                   aria-invalid={field.state.meta.errors.length > 0}
                   onBlur={field.handleBlur}
                   onChange={(event) => {
@@ -149,7 +151,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                   )}
                 />
 
-                <FieldError errors={field.state.meta.errors} />
+                <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
               </div>
             )}
           </form.Field>
@@ -178,8 +180,8 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
             }}
           >
             {(field) => (
-              <div className="space-y-1.5">
-                <Label htmlFor={field.name} className="text-sm font-medium">
+              <div className="space-y-2">
+                <Label htmlFor={field.name} className="text-sm font-medium leading-5">
                   Maksymalna ilość
                 </Label>
 
@@ -190,6 +192,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                   step={1}
                   inputMode="numeric"
                   value={field.state.value ?? ""}
+                  aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                   aria-invalid={field.state.meta.errors.length > 0}
                   onBlur={field.handleBlur}
                   onChange={(event) => {
@@ -204,7 +207,7 @@ export function AvailabilityStep({ form }: AvailabilityStepProps) {
                   )}
                 />
 
-                <FieldError errors={field.state.meta.errors} />
+                <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
               </div>
             )}
           </form.Field>

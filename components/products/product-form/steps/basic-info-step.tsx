@@ -29,7 +29,7 @@ const CATEGORY_ITEMS = CATEGORIES.map((value) => ({
 
 export function BasicInfoStep({ form }: BasicInfoStepProps) {
   return (
-    <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
       {/* Nazwa */}
       <form.Field
         name="name"
@@ -38,8 +38,8 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label htmlFor={field.name} className="text-sm font-medium">
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
               Nazwa produktu
             </Label>
 
@@ -50,6 +50,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               onBlur={field.handleBlur}
               onChange={(event) => field.handleChange(event.target.value)}
               placeholder="np. MacBook Pro 14"
+              aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
               aria-invalid={field.state.meta.errors.length > 0}
               className={cn(
                 inputClassName,
@@ -58,7 +59,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               )}
             />
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
@@ -71,8 +72,8 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label htmlFor={field.name} className="text-sm font-medium">
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
               SKU produktu
             </Label>
 
@@ -83,6 +84,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               onBlur={field.handleBlur}
               onChange={(event) => field.handleChange(event.target.value)}
               placeholder="np. MBP14M3PRO"
+              aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
               aria-invalid={field.state.meta.errors.length > 0}
               className={cn(
                 inputClassName,
@@ -91,7 +93,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               )}
             />
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
@@ -104,8 +106,8 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
         }}
       >
         {(field) => (
-          <div className="space-y-1.5 sm:col-span-2">
-            <Label htmlFor={field.name} className="text-sm font-medium">
+          <div className="space-y-2 sm:col-span-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
               Opis
             </Label>
 
@@ -130,8 +132,10 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label className="text-sm font-medium">Producent</Label>
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
+              Producent
+            </Label>
 
             <Select
               items={MANUFACTURER_ITEMS}
@@ -141,7 +145,9 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               }}
             >
               <SelectTrigger
+                id={field.name}
                 aria-label="Producent"
+                aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
                   "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600",
@@ -160,7 +166,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               </SelectContent>
             </Select>
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
@@ -173,8 +179,10 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label className="text-sm font-medium">Kategoria</Label>
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
+              Kategoria
+            </Label>
 
             <Select
               items={CATEGORY_ITEMS}
@@ -184,7 +192,9 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               }}
             >
               <SelectTrigger
+                id={field.name}
                 aria-label="Kategoria"
+                aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
                   "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600",
@@ -203,7 +213,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
               </SelectContent>
             </Select>
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
@@ -228,8 +238,11 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
           }
 
           return (
-            <div className="space-y-1.5 sm:col-span-2">
-              <Label className="text-sm font-medium">Cechy produktu</Label>
+            <div
+              className="min-w-0 space-y-2 sm:col-span-2"
+              aria-describedby={field.state.meta.errors.length > 0 ? "features-error" : undefined}
+            >
+              <Label className="text-sm font-medium leading-5">Cechy produktu</Label>
 
               <div className="flex flex-wrap gap-2">
                 {PRODUCT_FEATURES.map((feature) => {
@@ -239,9 +252,13 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
                     <button
                       key={feature}
                       type="button"
+                      role="checkbox"
+                      aria-checked={selected}
+                      aria-invalid={field.state.meta.errors.length > 0}
+                      aria-describedby={field.state.meta.errors.length > 0 ? "features-error" : undefined}
                       onClick={() => toggleFeature(feature)}
                       className={cn(
-                        "h-6 rounded-full border px-2 text-xs transition-colors",
+                        "h-6 rounded-full border px-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600",
                         selected
                           ? "border-blue-600 bg-blue-600 text-white"
                           : "border-neutral-200 bg-white text-neutral-500 hover:bg-neutral-100",
@@ -253,7 +270,7 @@ export function BasicInfoStep({ form }: BasicInfoStepProps) {
                 })}
               </div>
 
-              <FieldError errors={field.state.meta.errors} />
+              <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
             </div>
           );
         }}

@@ -33,7 +33,7 @@ const inputClassName =
 
 export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: PriceStepProps) {
   return (
-    <div className="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-x-4 gap-y-5 sm:grid-cols-2">
       {/* Cena netto */}
       <form.Field
         name="netPrice"
@@ -42,8 +42,8 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label htmlFor={field.name} className="text-sm font-medium">
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
               Cena netto
             </Label>
 
@@ -55,6 +55,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               inputMode="decimal"
               value={field.state.value ?? ""}
               placeholder="0.00"
+              aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
               aria-invalid={field.state.meta.errors.length > 0}
               onBlur={field.handleBlur}
               onChange={(event) => {
@@ -77,7 +78,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               )}
             />
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
@@ -90,8 +91,8 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label htmlFor={field.name} className="text-sm font-medium">
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">
               Cena brutto
             </Label>
 
@@ -103,6 +104,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               inputMode="decimal"
               value={field.state.value ?? ""}
               placeholder="0.00"
+              aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
               aria-invalid={field.state.meta.errors.length > 0}
               onBlur={field.handleBlur}
               onChange={(event) => {
@@ -125,7 +127,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               )}
             />
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
@@ -138,8 +140,8 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label className="text-sm font-medium">Stawka VAT</Label>
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">Stawka VAT</Label>
 
             <Select
               items={VAT_ITEMS}
@@ -169,7 +171,9 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               }}
             >
               <SelectTrigger
+                id={field.name}
                 aria-label="Stawka VAT"
+                aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
                   "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none",
@@ -188,7 +192,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               </SelectContent>
             </Select>
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
@@ -201,8 +205,8 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
         }}
       >
         {(field) => (
-          <div className="space-y-1.5">
-            <Label className="text-sm font-medium">Waluta</Label>
+          <div className="space-y-2">
+            <Label htmlFor={field.name} className="text-sm font-medium leading-5">Waluta</Label>
 
             <Select
               items={CURRENCY_ITEMS}
@@ -212,7 +216,9 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               }}
             >
               <SelectTrigger
+                id={field.name}
                 aria-label="Waluta"
+                aria-describedby={field.state.meta.errors.length > 0 ? `${field.name}-error` : undefined}
                 aria-invalid={field.state.meta.errors.length > 0}
                 className={cn(
                   "h-8 w-full rounded-full border-neutral-200 px-3 text-sm shadow-none",
@@ -231,7 +237,7 @@ export function PriceStep({ form, lastEditedPrice, onLastEditedPriceChange }: Pr
               </SelectContent>
             </Select>
 
-            <FieldError errors={field.state.meta.errors} />
+            <FieldError id={`${field.name}-error`} errors={field.state.meta.errors} />
           </div>
         )}
       </form.Field>
